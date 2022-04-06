@@ -1,52 +1,54 @@
-function main(arrays) {
-  let menor = null;
-  let mayor = null;
+let max;
+let min;
 
-  const indicesActuales = [];
+function main(arrays) {
+  const pointers = [];
 
   for (let i = 0; i < arrays.length; i++) {
-    indicesActuales.push(0);
+    pointers.push(0);
   }
 
-  let continuar = true;
+  let found = false;
 
-  while (continuar) {
-    let menorActual = 0;
-    let mayorActual = 0;
+  while (!found) {
+    let newMax = 0;
+    let newMin = arrays[0][pointers[0]] + 1;
+    let minIndex = 0;
 
     for (let i = 0; i < arrays.length; i++) {
-      const indiceActual = indicesActuales[i];
-      const numeroActual = arrays[i][indiceActual];
+      const currentNumber = arrays[i][pointers[i]];
 
-      if (numeroActual <= menorActual) {
-        if (indiceActual == arrays[i].length - 1) continuar = false;
+      if (currentNumber > newMax) newMax = currentNumber;
 
-        menorActual = numeroActual;
-        indicesActuales[i]++;
+      if (currentNumber < newMin) {
+        newMin = currentNumber;
+        minIndex = i;
       }
-
-      if (numeroActual >= mayorActual) mayorActual = numeroActual;
     }
-
-    if (mayor == null && menor == null) {
-      mayor = mayorActual;
-      menor = menorActual;
-      continue;
-    }
-
-    const restaAnterior = mayor - menor;
-    const restaActual = mayorActual - menorActual;
-
-    if (restaActual == restaAnterior && menorActual < menor) {
-      menor = menorActual;
-      mayor = mayorActual;
-    } else if (restaActual < restaAnterior) {
-      menor = menorActual;
-      mayor = mayorActual;
-    }
+    pointers[minIndex]++;
+    if (pointers[minIndex] >= arrays[minIndex].length) found = true;
+    compareRange(newMax, newMin);
   }
 
-  return [menor, mayor];
+  return [min, max];
+}
+
+function compareRange(newMax, newMin) {
+  if (max == undefined && min == undefined) {
+    min = newMin;
+    max = newMax;
+    return;
+  }
+
+  const subs1 = newMax - newMin;
+  const subs2 = max - min;
+
+  if (subs1 > subs2) return;
+
+  if (subs1 == subs2 && newMax > max) return;
+
+  min = newMin;
+  max = newMax;
 }
 
 console.log(
