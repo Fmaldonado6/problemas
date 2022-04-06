@@ -1,0 +1,3 @@
+Primero cambiaría los strings de las validaciones a constantes para que en un futuro sea mas sencillo cambiar los valores
+Hay muchos condicionales repetidos esos pueden agruparse en uno solo para evitar hacer la misma validación muchas veces,
+también se pueden agrupar los nombres "prohibidos" que queremos validar en un hash map para evitar tener que hacer muchas validaciones
